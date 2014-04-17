@@ -59,6 +59,25 @@
 				return {};
 			} );
 
+			// A quick workaround for issue #11842.
+			editor.on( 'instanceReady', function( evt ) {
+				var editable = editor.editable();
+
+				// We want to be able to open links also in read-only mode. This
+				// listener will open link in new tab.
+				editable.on( 'click', function( evt ) {
+					// This method is made for read-only mode.
+					if ( !editor.readOnly )
+						return;
+
+					var target = evt.data.getTarget(),
+						clickedAnchor = ( new CKEDITOR.dom.elementPath( target, editor.editable() ) ).contains( 'a' ),
+						href = clickedAnchor && clickedAnchor.getAttribute( 'href' );
+
+					if ( href )
+						window.open( href, '_blank' );
+				} );
+			} );
 		}
 	} );
 
