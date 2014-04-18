@@ -66,8 +66,10 @@
 				// We want to be able to open links also in read-only mode. This
 				// listener will open link in new tab.
 				editable.on( 'click', function( evt ) {
-					// This method is made for read-only mode.
-					if ( !editor.readOnly )
+					// This feature should be available in:
+					// * wysywigmode in read-only
+					// * wysywigmode when ctrl key is down
+					if ( !editor.readOnly && !evt.data.$.ctrlKey )
 						return;
 
 					var target = evt.data.getTarget(),
