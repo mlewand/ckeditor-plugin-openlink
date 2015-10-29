@@ -73,18 +73,16 @@
 					// This feature should be available in:
 					// * wysywigmode in read-only
 					// * wysywigmode when ctrl key is down
-
-					// FF handles it by itself. Var is inited few lines below.
-					ctrlClickHandlingNeeded = evt.data.$.ctrlKey && !CKEDITOR.env.gecko;
+					
+					var target = evt.data.getTarget(),
+						clickedAnchor = ( new CKEDITOR.dom.elementPath( target, editor.editable() ) ).contains( 'a' ),
+						href = clickedAnchor && clickedAnchor.getAttribute( 'href' ),
+						// FF handles it by itself.
+						ctrlClickHandlingNeeded = evt.data.$.ctrlKey && !CKEDITOR.env.gecko;
 
 					if ( !editor.readOnly && !ctrlClickHandlingNeeded ) {
 						return;
 					}
-
-					var target = evt.data.getTarget(),
-						clickedAnchor = ( new CKEDITOR.dom.elementPath( target, editor.editable() ) ).contains( 'a' ),
-						href = clickedAnchor && clickedAnchor.getAttribute( 'href' ),
-						ctrlClickHandlingNeeded;
 
 					if ( href ) {
 						window.open( href, '_blank' );
