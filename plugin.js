@@ -73,18 +73,19 @@
 					// This feature should be available in:
 					// * wysywigmode in read-only
 					// * wysywigmode when ctrl key is down
-					
 					var target = evt.data.getTarget(),
 						clickedAnchor = ( new CKEDITOR.dom.elementPath( target, editor.editable() ) ).contains( 'a' ),
 						href = clickedAnchor && clickedAnchor.getAttribute( 'href' ),
-						// FF handles it by itself.
-						ctrlClickHandlingNeeded = evt.data.$.ctrlKey && !CKEDITOR.env.gecko;
-
-					if ( !editor.readOnly && !ctrlClickHandlingNeeded ) {
+						config = editor.config,
+						modifierCode = typeof config.openlink_modifier != 'undefined' ? config.openlink_modifier : CKEDITOR.CTRL,
+						// Note that modifier might be 0/false, then it should open the link no matter what.
+						modifierPressed = !modifierCode || evt.data.getKeystroke() & modifierCode;
+						
+					if ( editor.readOnly && !config.openlink_enableReadOnly ) {
 						return;
 					}
-
-					if ( href ) {
+					
+					if ( href && modifierPressed ) {
 						window.open( href, '_blank' );
 					}
 				} );
