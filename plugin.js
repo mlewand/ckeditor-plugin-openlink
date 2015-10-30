@@ -26,11 +26,13 @@
 					var anchor = getActiveLink( editor ),
 						href;
 
-					if ( anchor )
+					if ( anchor ) {
 						href = anchor.getAttribute( 'href' );
+					}
 
-					if ( href )
+					if ( href ) {
 						window.open( href );
+					}
 				}
 			} );
 
@@ -48,13 +50,15 @@
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			editor.contextMenu.addListener( function( element, selection ) {
-				if ( !element )
+				if ( !element ) {
 					return null;
+				}
 
 				var anchor = getActiveLink( editor );
 
-				if ( anchor && anchor.getAttribute( 'href' ) )
+				if ( anchor && anchor.getAttribute( 'href' ) ) {
 					return { openLink: CKEDITOR.TRISTATE_OFF };
+				}
 
 				return {};
 			} );
@@ -69,20 +73,21 @@
 					// This feature should be available in:
 					// * wysywigmode in read-only
 					// * wysywigmode when ctrl key is down
-
-					// FF handles it by itself. Var is inited few lines below.
-					ctrlClickHandlingNeeded = evt.data.$.ctrlKey && !CKEDITOR.env.gecko;
-
-					if ( !editor.readOnly && !ctrlClickHandlingNeeded )
-						return;
-
 					var target = evt.data.getTarget(),
 						clickedAnchor = ( new CKEDITOR.dom.elementPath( target, editor.editable() ) ).contains( 'a' ),
 						href = clickedAnchor && clickedAnchor.getAttribute( 'href' ),
-						ctrlClickHandlingNeeded;
-
-					if ( href )
+						config = editor.config,
+						modifierCode = typeof config.openlink_modifier != 'undefined' ? config.openlink_modifier : CKEDITOR.CTRL,
+						// Note that modifier might be 0/false, then it should open the link no matter what.
+						modifierPressed = !modifierCode || evt.data.getKeystroke() & modifierCode;
+						
+					if ( editor.readOnly && !config.openlink_enableReadOnly ) {
+						return;
+					}
+					
+					if ( href && modifierPressed ) {
 						window.open( href, '_blank' );
+					}
 				} );
 			} );
 		}
