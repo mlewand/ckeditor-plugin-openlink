@@ -18,6 +18,12 @@ There are few config options available, you need to define them in standard [CKE
 
 ### `config.openlink_modifier`
 
+Specifies what modifier key(s) should be pressed to open the link. It's based on `CKEDITOR.CTRL`, `CKEDITOR.SHIFT` and `CKEDITOR.ALT` members.
+
+You might also provide `0` as the value - it will cause any click to open the link, without need to press any modifier key.
+
+You can specify multiple modifiers, e.g. having `config.openlink_modifier = CKEDITOR.SHIFT + CKEDITOR.CTRL` would trigger the link with CTRL key or SHIFT key or both of them being pressed.
+
 Defaults to: `CKEDITOR.CTRL`
 
 ### `config.openlink_enableReadOnly`
