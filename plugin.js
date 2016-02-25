@@ -20,6 +20,10 @@
 		requires: 'link,contextmenu',
 
 		init: function( editor ) {
+			if(!editor.config.openlink_defaultTarget){
+				editor.config.openlink_defaultTarget = "_blank";
+			}
+
 			// Register openLink command.
 			editor.addCommand( 'openLink', {
 				exec: function( editor ) {
@@ -86,7 +90,8 @@
 					}
 					
 					if ( href && modifierPressed ) {
-						window.open( href, '_blank' );
+
+						window.open( href, editor.config.openlink_defaultTarget );
 					}
 				} );
 			} );
