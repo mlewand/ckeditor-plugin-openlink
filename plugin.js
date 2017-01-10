@@ -19,8 +19,8 @@
 		requires: 'link,contextmenu',
 
 		init: function( editor ) {
-			if ( !editor.config.openlink_defaultTarget ) {
-				editor.config.openlink_defaultTarget = "_blank";
+			if ( !editor.config.openlink_target ) {
+				editor.config.openlink_target = "_blank";
 			}
 
 			// Register openLink command.
@@ -91,8 +91,7 @@
 					}
 
 					if ( href && modifierPressed ) {
-
-						window.open( href, editor.config.openlink_defaultTarget );
+						window.open( href, editor.config.openlink_target );
 					}
 				} );
 			} );
