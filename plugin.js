@@ -1,4 +1,3 @@
-
 /**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
@@ -20,7 +19,7 @@
 		requires: 'link,contextmenu',
 
 		init: function( editor ) {
-			if(!editor.config.openlink_defaultTarget){
+			if ( !editor.config.openlink_defaultTarget ) {
 				editor.config.openlink_defaultTarget = "_blank";
 			}
 
@@ -61,7 +60,9 @@
 				var anchor = getActiveLink( editor );
 
 				if ( anchor && anchor.getAttribute( 'href' ) ) {
-					return { openLink: CKEDITOR.TRISTATE_OFF };
+					return {
+						openLink: CKEDITOR.TRISTATE_OFF
+					};
 				}
 
 				return {};
@@ -84,11 +85,11 @@
 						modifierCode = typeof config.openlink_modifier != 'undefined' ? config.openlink_modifier : CKEDITOR.CTRL,
 						// Note that modifier might be 0/false, then it should open the link no matter what.
 						modifierPressed = !modifierCode || evt.data.getKeystroke() & modifierCode;
-						
+
 					if ( editor.readOnly && !config.openlink_enableReadOnly ) {
 						return;
 					}
-					
+
 					if ( href && modifierPressed ) {
 
 						window.open( href, editor.config.openlink_defaultTarget );
