@@ -88,6 +88,9 @@
 
 					if ( href && modifierPressed ) {
 						window.open( href, editor.config.openlink_target || '_blank' );
+
+						// We need to prevent it for Firefox, as it has it's own handling (#8).
+						evt.data.preventDefault();
 					}
 				} );
 			} );
