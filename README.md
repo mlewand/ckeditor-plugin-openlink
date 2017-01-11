@@ -4,7 +4,7 @@ Open Link plugin
 The **Open Link** is a very simple plugin, extending context menu with a possibility to open link in a new tab.
 
 * extending context menu with a possibility to open link in a new tab,
-* allwoing you to open link with a ctrl/cmd click,
+* allowing you to open link with a ctrl/cmd click,
 
 It also integrates with linked [image2](http://ckeditor.com/addon/image2) widgets.
 
