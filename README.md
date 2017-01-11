@@ -32,6 +32,16 @@ Determines whether this plugin feature should be available also in read-only mod
 
 Defaults to: `false`
 
+### `config.openlink_target`
+
+Sets the target where new window should be open.
+
+```
+config.openlink_target = '_self'; // Will cause current page to be replaced by link click.
+```
+
+Defaults to: `'_blank'`
+
 ## Installation
 
 See the official [Plugin Installation Guide](http://docs.ckeditor.com/#!/guide/dev_plugins).
