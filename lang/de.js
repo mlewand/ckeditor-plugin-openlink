@@ -3,5 +3,5 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.plugins.setLang( 'openlink', 'de', {
-	menu: 'Link in neuem Tab öffnen'
+	menu: 'Link öffnen'
 } );
