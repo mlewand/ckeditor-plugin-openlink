@@ -18,8 +18,13 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		requires: 'link,contextmenu',
 
+		onLoad: function() {
+			CKEDITOR.addCss( '.openlink a:hover{ cursor: pointer; }' );
+		},
+
 		init: function( editor ) {
-			var target = editor.config.openlink_target || '_blank';
+			var target = editor.config.openlink_target || '_blank',
+				openLinkInstance = new OpenLinkPlugin( editor, editor.config );
 
 			// Register openLink command.
 			editor.addCommand( 'openLink', {
@@ -79,12 +84,9 @@
 					var target = evt.data.getTarget(),
 						clickedAnchor = ( new CKEDITOR.dom.elementPath( target, editor.editable() ) ).contains( 'a' ),
 						href = clickedAnchor && clickedAnchor.getAttribute( 'href' ),
-						config = editor.config,
-						modifierCode = typeof config.openlink_modifier != 'undefined' ? config.openlink_modifier : CKEDITOR.CTRL,
-						// Note that modifier might be 0/false, then it should open the link no matter what.
-						modifierPressed = !modifierCode || evt.data.getKeystroke() & modifierCode;
+						modifierPressed = openLinkInstance.properModifierPressed( evt );
 
-					if ( editor.readOnly && !config.openlink_enableReadOnly ) {
+					if ( editor.readOnly && !editor.config.openlink_enableReadOnly ) {
 						return;
 					}
 
@@ -95,6 +97,16 @@
 						evt.data.preventDefault();
 					}
 				} );
+
+				if ( openLinkInstance.modifierRequired() ) {
+					// Keyboard listeners are needed only if any modifier is required to open clicked link.
+					editable.attachListener( editable, 'keydown', openLinkInstance.onKeyPress, openLinkInstance );
+					editable.attachListener( editable, 'keyup', openLinkInstance.onKeyPress, openLinkInstance );
+				} else {
+					// If any clicks should trigger link open, then just add the class to the editable.
+					editor.editable().addClass( 'openlink' );
+				}
+
 			} );
 		}
 	} );
@@ -116,4 +128,51 @@
 		return anchor;
 	}
 
+	/**
+	 * OpenLink plugin type, groups all the functions related to plugin.
+	 *
+	 * @class CKEDITOR.plugins.openlink
+	 * @param {CKEDITOR.editor} editor
+	 * @param {CKEDITOR.config} config
+	 */
+	function OpenLinkPlugin( editor, config ) {
+		this.editor = editor;
+		this.modifier = typeof config.openlink_modifier != 'undefined' ? config.openlink_modifier : CKEDITOR.CTRL;
+	}
+
+	/**
+	 * Whether configuration requires __any__ modifier key to be hold in order to open the link.
+	 *
+	 * @returns {Boolean}
+	 */
+	OpenLinkPlugin.prototype.modifierRequired = function() {
+		return this.modifier !== 0;
+	};
+
+	/**
+	 * Tells if `evt` has proper modifier keys pressed.
+	 *
+	 * **Note:** it will return `true` if modifier is not required.
+	 *
+	 * @param {CKEDITOR.dom.event} evt
+	 * @returns {Boolean}
+	 */
+	OpenLinkPlugin.prototype.properModifierPressed = function( evt ) {
+		return !this.modifierRequired() || ( evt.data.getKeystroke() & this.modifier );
+	};
+
+	/**
+	 * Method to be called upon `keydown`, `keyup` events.
+	 *
+	 * @param {CKEDITOR.dom.event} evt
+	 */
+	OpenLinkPlugin.prototype.onKeyPress = function( evt ) {
+		if ( this.properModifierPressed( evt ) ) {
+			this.editor.editable().addClass( 'openlink' );
+		} else {
+			this.editor.editable().removeClass( 'openlink' );
+		}
+	};
+
+	CKEDITOR.plugins.openlink = OpenLinkPlugin;
 } )();
