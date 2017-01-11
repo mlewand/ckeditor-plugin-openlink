@@ -19,6 +19,8 @@
 		requires: 'link,contextmenu',
 
 		init: function( editor ) {
+			var target = editor.config.openlink_target || '_blank';
+
 			// Register openLink command.
 			editor.addCommand( 'openLink', {
 				exec: function( editor ) {
@@ -30,7 +32,7 @@
 					}
 
 					if ( href ) {
-						window.open( href );
+						window.open( href, target );
 					}
 				}
 			} );
@@ -87,7 +89,7 @@
 					}
 
 					if ( href && modifierPressed ) {
-						window.open( href, editor.config.openlink_target || '_blank' );
+						window.open( href, target );
 
 						// We need to prevent it for Firefox, as it has it's own handling (#8).
 						evt.data.preventDefault();
