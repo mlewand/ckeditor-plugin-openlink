@@ -30,6 +30,10 @@ Defaults to: `CKEDITOR.CTRL`
 
 Determines whether this plugin feature should be available also in read-only mode. For backawrd compatibility reason this value is set to `false` by default.
 
+```
+config.openlink_enableReadOnly = true; // Allows opening links also while editor is in read-only mode.
+```
+
 Defaults to: `false`
 
 ### `config.openlink_target`
