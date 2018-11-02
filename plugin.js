@@ -13,7 +13,7 @@
 ( function() {
 
 	CKEDITOR.plugins.add( 'openlink', {
-		lang: 'bg,en,de,pl,ru', // %REMOVE_LINE_CORE%
+		lang: 'bg,en,de,pl,ru,uk', // %REMOVE_LINE_CORE%
 		icons: 'openLink', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		requires: 'link,contextmenu',
