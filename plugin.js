@@ -90,7 +90,7 @@
 						return;
 					}
 
-					if ( href && modifierPressed ) {
+					if ( isValidUrl( href ) && modifierPressed ) {
 						window.open( href, target );
 
 						// We need to prevent it for Firefox, as it has it's own handling (#8).
