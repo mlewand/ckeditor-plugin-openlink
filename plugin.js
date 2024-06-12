@@ -29,15 +29,15 @@
 			// Register openLink command.
 			editor.addCommand( 'openLink', {
 				exec: function( editor ) {
-					var anchor = getActiveLink( editor ),
-						href;
+					var linkElement = getActiveLink( editor ),
+						url;
 
-					if ( anchor ) {
-						href = anchor.getAttribute( 'href' );
+					if ( linkElement ) {
+						url = linkElement.getAttribute( 'href' );
 					}
 
-					if ( href ) {
-						window.open( href, target );
+					if ( url && isValidUrl( url ) ) {
+						window.open( url, target );
 					}
 				}
 			} );
@@ -62,7 +62,7 @@
 
 				var anchor = getActiveLink( editor );
 
-				if ( anchor && anchor.getAttribute( 'href' ) ) {
+				if ( anchor && isValidUrl( anchor.getAttribute( 'href' ) ) ) {
 					return {
 						openLink: CKEDITOR.TRISTATE_OFF
 					};
@@ -90,7 +90,7 @@
 						return;
 					}
 
-					if ( href && modifierPressed ) {
+					if ( isValidUrl( href ) && modifierPressed ) {
 						window.open( href, target );
 
 						// We need to prevent it for Firefox, as it has it's own handling (#8).
@@ -126,6 +126,29 @@
 		}
 
 		return anchor;
+	}
+
+	/**
+	 * Tells whether given URL might be opened.
+	 *
+	 * @param {String} url URL to be checked.
+	 * @returns {Boolean}
+	 */
+	function isValidUrl( url ) {
+		const disallowedProtocols = [ 'javascript:', 'data:', 'blob:', 'file:' ];
+
+		if ( url ) {
+			for ( var i = 0; i < disallowedProtocols.length; i++ ) {
+				// IE8 compatible trimStart & startsWith :).
+				if ( url.replace(/^\s+/, '').indexOf( disallowedProtocols[ i ] ) === 0 ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
