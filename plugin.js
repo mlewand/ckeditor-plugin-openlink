@@ -135,7 +135,7 @@
 	 * @returns {Boolean}
 	 */
 	function isValidUrl( url ) {
-		const disallowedProtocols = [ 'javascript:', 'data:', 'blob:', 'file:' ];
+		var disallowedProtocols = [ 'javascript:', 'data:', 'blob:', 'file:' ];
 
 		if ( url ) {
 			for ( var i = 0; i < disallowedProtocols.length; i++ ) {
