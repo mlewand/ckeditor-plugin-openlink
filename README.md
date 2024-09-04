@@ -1,5 +1,8 @@
 # Open Link plugin
 
+> [!WARNING]
+> CKEditor 4 Open link plugin is no longer maintained. As such it won't receive new features, fixes nor security fixes.
+
 The **Open Link** is a very simple plugin, extending context menu with a possibility to open link in a new tab.
 
 * extending context menu with a possibility to open link in a new tab,
