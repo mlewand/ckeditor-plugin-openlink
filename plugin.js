@@ -137,7 +137,7 @@
 			for ( var i = 0; i < disallowedProtocols.length; i++ ) {
 				// IE8 compatible String.startsWith() :).
 				// Whitespace space needs to be removed not only from the beginning, but also in the middle as browser will execute
-				// URL like "ja vascript: foo();".
+				// URL like "ja	vascript: foo();" or with a new line character(s) within "javascript:".
 				if ( url.replace( /\s/g, '' ).toLowerCase().indexOf( disallowedProtocols[ i ] ) === 0 ) {
 					return false;
 				}
