@@ -139,8 +139,10 @@
 
 		if ( url ) {
 			for ( var i = 0; i < disallowedProtocols.length; i++ ) {
-				// IE8 compatible trimStart & startsWith :).
-				if ( url.replace(/^\s+/, '').toLowerCase().indexOf( disallowedProtocols[ i ] ) === 0 ) {
+				// IE8 compatible String.startsWith() :).
+				// Whitespace space needs to be removed not only from the beginning, but also in the middle as browser will execute
+				// URL like "ja vascript: foo();".
+				if ( url.replace( /\s/g, '' ).toLowerCase().indexOf( disallowedProtocols[ i ] ) === 0 ) {
 					return false;
 				}
 			}
